@@ -194,17 +194,24 @@ NSString *kFn_deleteSavedUserActivitiesWithPersistentIdentifiers = @"deleteSaved
 }
 
 - (BOOL)application:(UIApplication *)application willContinueUserActivityWithType:(NSString *)userActivityType {
+    NSLog(@"willContinueUserActivityWithType");
+
     return true;
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *UIUserActivityRestoring))restorationHandler {
-
+    NSLog(@"continueUserActivity");
+    NSLog(@"userActivityType :%@", userActivity.activityType);
+    //if userActivityType is not start with kPluginName, return false
     if ([[userActivity activityType] hasPrefix:kPluginName]) {
         [self onAwake:userActivity method: @"onLaunch"];
         return true;
-    } else 
-      [self onAwake:userActivity method: @"failedToLaunchWithActivity"];
+    } else {
+        NSLog(@"continueUserActivity false");
+    //   [self onAwake:userActivity method: @"failedToLaunchWithActivity"];
+      NSLog(@"failedToLaunchWithActivity");
     return false;
+    }
     
     
 }
